@@ -6,6 +6,7 @@
   :author "Florian Margaine <florian@margaine.com>"
   :license "MIT License"
   :components ((:file "src/package")
+               (:file "src/input")
                (:file "src/tokenizer")
                (:file "src/parser")
                (:file "src/ast")

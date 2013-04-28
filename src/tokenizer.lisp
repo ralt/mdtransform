@@ -1,3 +1,4 @@
 (in-package #:mdtransform)
 
-(defun tokenize (input))
+(defun tokenize (input)
+  input)

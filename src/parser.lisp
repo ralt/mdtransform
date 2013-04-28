@@ -1,3 +1,4 @@
 (in-package #:mdtransform)
 
-(defun parse (tokens))
+(defun parse (tokens)
+  tokens)

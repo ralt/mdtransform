@@ -1,3 +1,4 @@
 (in-package #:mdtransform)
 
-(defun ast-to-html (ast))
+(defun ast-to-html (ast)
+  ast)
