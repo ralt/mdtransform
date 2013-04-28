@@ -1,8 +1,9 @@
 (in-package #:mdtransform-tests)
 
+(defvar *input-sample* "some sample
+
+text")
+
 (fiveam:test tokenizer-test
   "Tests the tokenizer API"
-  (let ((input "some sample
-
-text"))
-    (fiveam:is (equal '(("some sample") ("text")) (mdtransform::tokenize input)))))
+  (fiveam:is (equal '(("some sample") ("text")) (mdtransform::tokenize *input-sample*))))
