@@ -1,4 +1,4 @@
 (in-package #:mdtransform)
 
-(defun main ()
-  (format t "~A" (ast-to-html (parse (tokenize (get-input))))))
+(defun main (&optional from-code?)
+  (format (if from-code? nil t) "~A" (ast-to-html (parse (tokenize (get-input))))))
