@@ -5,9 +5,9 @@
   :description "Markdown to HTML transformer"
   :author "Florian Margaine <florian@margaine.com>"
   :license "MIT License"
-  :components ((:file "package")
-               (:file "tokenizer")
-               (:file "parser")
-               (:file "ast")
-               (:file "mdtransform")))
+  :components ((:file "src/package")
+               (:file "src/tokenizer")
+               (:file "src/parser")
+               (:file "src/ast")
+               (:file "src/mdtransform")))
 
