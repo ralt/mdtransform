@@ -4,10 +4,10 @@
   :author "Florian Margaine <florian@margaine.com>"
   :license "MIT License"
   :depends-on ("mdtransform" "fiveam")
-  :components ((:file "src/package")
-               (:file "src/input")
-               (:file "src/tokenizer")
-               (:file "src/parser")
-               (:file "src/ast")
-               (:file "src/mdtransform")))
+  :components ((:file "tests/package")
+               (:file "tests/input")
+               (:file "tests/tokenizer")
+               (:file "tests/parser")
+               (:file "tests/ast")
+               (:file "tests/mdtransform")))
 
