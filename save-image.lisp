@@ -9,4 +9,5 @@
 (sb-ext:save-lisp-and-die #P"dist/mdtransform"
                           :toplevel 'mdtransform:main
                           :executable t
-                          :purify t)
+                          :purify t
+                          :compression 9)
