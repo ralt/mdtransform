@@ -1,4 +1,5 @@
 ;;;; package.lisp
 
 (defpackage #:mdtransform
-  (:use #:cl))
+  (:use #:cl)
+  (:export :main))
