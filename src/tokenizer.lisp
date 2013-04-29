@@ -1,6 +1,15 @@
 (in-package #:mdtransform)
 
 (defun tokenize (input)
-  (let ((tokens '())
-        (paragraphs (cl-ppcre:split "\\n\\n" input)))
-    (append tokens (mapcar 'list paragraphs))))
+  "Tokenizes the markdown input"
+  (let ((tokens '()))
+    (append tokens (t-words (t-paragraphs input)))))
+
+(defun t-words (paragraph)
+  "Tokenizes each paragraph in words"
+  paragraph)
+
+(defun t-paragraphs (text)
+  "Tokenizes into paragraphs"
+  (let ((paragraphs (cl-ppcre:split "\\n\\n" text)))
+    (mapcar 'list paragraphs)))
