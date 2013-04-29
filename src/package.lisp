@@ -2,4 +2,4 @@
 
 (defpackage #:mdtransform
   (:use #:cl)
-  (:export :main-))
+  (:export :main))
