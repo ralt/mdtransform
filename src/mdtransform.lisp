@@ -1,3 +1,5 @@
+;;; https://gist.github.com/Ralt/5484237
+
 (in-package #:mdtransform)
 
 (defun main (&optional from-code?)
