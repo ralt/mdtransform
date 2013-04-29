@@ -7,7 +7,7 @@
 (ql:quickload "mdtransform")
 
 (sb-ext:save-lisp-and-die #P"dist/mdtransform"
-                          :toplevel 'mdtransform:main
+                          :toplevel 'mdtransform:main-
                           :executable t
                           :purify t
                           :compression 9)
