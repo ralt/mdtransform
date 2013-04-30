@@ -1,7 +1,7 @@
 (in-package #:mdtransform)
 
-(defvar *special-characters* '(("*" . "*")
-                              ("**" . "**")
+(defvar *special-characters* '(("\\\*\\\*" . "\\\*\\\*")
+                              ("\\\*". "\\\*")
                               ("[" . "]")
                               ("![" . "]")))
 
@@ -16,10 +16,16 @@
 
 (defun t-word (paragraph)
   "Tokenizes a single paragraph in words"
-  ; First split by special characters
-  (reduce #'(lambda (x)
-              x)
-          *special-characters*))
+  (let ((words '())
+        (indexes '()))
+    (loop
+       for current-char in *special-characters*
+       do (let ((index (cl-ppcre:all-matches
+                        (format nil "~A[\\w ]+~A"
+                                (car current-char)
+                                (cdr current-char))
+                        paragraph)))
+            (format t "~A~%~A~%~%" (car index) (cdr index))))))
 
 (defun t-paragraphs (text)
   "Tokenizes into paragraphs"
