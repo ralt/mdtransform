@@ -17,15 +17,28 @@
 (defun t-word (paragraph)
   "Tokenizes a single paragraph in words"
   (let ((words '())
-        (indexes '()))
+        (indexes (get-indexes paragraph)))))
+
+(defun get-indexes (paragraph)
+  (let ((ret '())
+        (i 0))
     (loop
        for current-char in *special-characters*
-       do (let ((index (cl-ppcre:all-matches
-                        (format nil "~A[\\w ]+~A"
-                                (car current-char)
-                                (cdr current-char))
-                        paragraph)))
-            (format t "~A~%~A~%~%" (car index) (cdr index))))))
+       do (let ((indexes (cl-ppcre:all-matches
+                          (format nil "~A[\\w ]+~A"
+                                  (car current-char)
+                                  (cdr current-char))
+                          paragraph)))
+            (loop
+               for index in indexes
+               do (progn
+                    (format t "~A~%" ret)
+                    (setf i (1+ i))
+                    (append (if ret (last ret) ret) index)
+                    (when (mod i 2)
+                      (append ret '())))
+               finally (setf i 0))))
+    ret))
 
 (defun t-paragraphs (text)
   "Tokenizes into paragraphs"
