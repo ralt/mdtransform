@@ -20,8 +20,7 @@
         (indexes (get-indexes paragraph)))))
 
 (defun get-indexes (paragraph)
-  (let ((ret (list (list)))
-        (i 0))
+  (let ((ret '()))
     (loop
        for current-char in *special-characters*
        do (let ((indexes (cl-ppcre:all-matches
@@ -29,15 +28,15 @@
                                   (car current-char)
                                   (cdr current-char))
                           paragraph)))
-            (loop
-               for index in indexes
-               do (progn
-                    (setf i (1+ i))
-                    (setf ret (append (last ret) (list index)))
-                    (when (mod i 2)
-                      (setf ret (append ret (list)))))
-               finally (setf i 0))))
+            (setf ret (append ret (collect-indexes indexes)))))
     ret))
+
+(defun collect-indexes (indexes)
+  (loop
+     while indexes
+     for a = (pop indexes)
+     for b = (pop indexes)
+     collect (list a b)))
 
 (defun t-paragraphs (text)
   "Tokenizes into paragraphs"
