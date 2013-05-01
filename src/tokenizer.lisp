@@ -20,7 +20,7 @@
         (indexes (get-indexes paragraph)))))
 
 (defun get-indexes (paragraph)
-  (let ((ret '())
+  (let ((ret (list (list)))
         (i 0))
     (loop
        for current-char in *special-characters*
@@ -32,11 +32,10 @@
             (loop
                for index in indexes
                do (progn
-                    (format t "~A~%" ret)
                     (setf i (1+ i))
-                    (append (if ret (last ret) ret) index)
+                    (setf ret (append (last ret) (list index)))
                     (when (mod i 2)
-                      (append ret '())))
+                      (setf ret (append ret (list)))))
                finally (setf i 0))))
     ret))
 
