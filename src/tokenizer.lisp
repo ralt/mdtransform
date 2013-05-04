@@ -5,7 +5,8 @@
                               ("[" . "]")
                               ("![" . "]")))
 
-(defvar *list* '())
+;;; Used for dynamic scoping only
+(defvar *dynamic-list* '())
 
 (defun tokenize (input)
   "Tokenizes the markdown input"
@@ -51,13 +52,18 @@
      collect (list a b)))
 
 (defun filter-indexes (indexes)
-  (let ((*list* indexes))
-    (remove-if #'filter-index indexes)))
+  "Filters the indexes to remove duplicates"
+  (let ((*dynamic-list* indexes))
+    ; We need to sort so that the smaller gets first
+    (sort (remove-if #'filter-index indexes)
+          #'(lambda (a b)
+              (> (car b) (car a))))))
 
 (defun filter-index (index)
+  "Filters a single index from the other"
   (let ((found? nil))
     (loop
-       for i in *list*
+       for i in *dynamic-list*
        when (and (> (car index)
                     (car i))
                  (< (cadr index)
