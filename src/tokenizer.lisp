@@ -12,15 +12,22 @@
   (let ((tokens '()))
     (append tokens (t-words (t-paragraphs input)))))
 
+(defun t-paragraphs (text)
+  "Tokenizes into paragraphs"
+  (let ((paragraphs (cl-ppcre:split "\\n\\n" text)))
+    (mapcar 'list paragraphs)))
+
 (defun t-words (paragraphs)
   "Tokenizes each paragraph in words"
   (mapcar #'t-word paragraphs))
 
 (defun t-word (paragraph)
   "Tokenizes a single paragraph in words"
-  (let ((words '())
-        (indexes (filter-indexes (get-indexes paragraph))))
-    (format t "~A" indexes)))
+  (let ((indexes (filter-indexes (get-indexes paragraph))))
+    (indexes-to-words indexes paragraph)))
+
+(defun indexes-to-words (indexes paragraph)
+  indexes)
 
 (defun get-indexes (paragraph)
   "Gets the indexes for each special character"
@@ -48,18 +55,12 @@
     (remove-if #'filter-index indexes)))
 
 (defun filter-index (index)
-  (format t "~A~%" index)
-  (format t "~A~%" *list*)
   (let ((found? nil))
     (loop
        for i in *list*
        when (and (> (car index)
                     (car i))
-                 (< (cdr index)
-                    (cdr i)))
-       do (setf found? t))))
-
-(defun t-paragraphs (text)
-  "Tokenizes into paragraphs"
-  (let ((paragraphs (cl-ppcre:split "\\n\\n" text)))
-    (mapcar 'list paragraphs)))
+                 (< (cadr index)
+                    (cadr i)))
+       do (setf found? t))
+    found?))
