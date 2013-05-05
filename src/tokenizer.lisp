@@ -28,6 +28,16 @@
     (indexes-to-words indexes paragraph)))
 
 (defun indexes-to-words (indexes paragraph)
+  (loop
+       for index in indexes
+       do (format t
+                  ; Debugging why it returns " [test]"
+                  "~A ~A~%"
+                  (subseq paragraph
+                          (car index)
+                          (cadr index))
+                  index))
+  ; For tests
   indexes)
 
 (defun get-indexes (paragraph)
@@ -66,7 +76,7 @@
        for i in *dynamic-list*
        when (and (> (car index)
                     (car i))
-                 (< (cadr index)
+                 (<= (cadr index)
                     (cadr i)))
        do (setf found? t))
     found?))
