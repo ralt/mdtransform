@@ -8,8 +8,6 @@
   :depends-on ("cl-ppcre")
   :components ((:file "src/package")
                (:file "src/input")
-               (:file "src/tokenizer")
+               (:file "src/lexer")
                (:file "src/parser")
-               (:file "src/ast")
                (:file "src/mdtransform")))
-
