@@ -1,10 +1,25 @@
 (in-package #:mdtransform)
 
-(defparameter *current* ""
-  "The current block being parsed.")
-
 (defparameter *tokens* '()
   "The full list of tokens.")
 
-(defun lex (input)
-  input)
+;;; State constants
+(defconstant *s-start* 0)
+
+(defparameter *state* *s-start*
+  "The current state.")
+
+(defgeneric lex (letter)
+  :documentation "Lexes a letter")
+
+(defmethod lex ((letter (string= "#")))
+  (format t "~A#~%" letter))
+
+(defmethod lex ((letter (string= "=")))
+  (format t "~A=~%" letter))
+
+(defmethod lex ((letter (string= "-")))
+  (format t "~A-~%" letter))
+
+(defmethod lex (letter)
+  (format t "~A~%" letter))
