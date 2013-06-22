@@ -9,20 +9,34 @@
 (defparameter *state* s-start
   "The current state.")
 
-(defun lex (letter)
-  (cond
-    ((string= "#" letter) (lex-sharp letter))
-    ((string= "=" letter) (lex-equal letter))
-    ((string= "-" letter) (lex-hyphen letter))
-    (t (lex-default letter))))
+(defvar *lexers* '())
 
-(defun lex-sharp (letter)
+(defmacro deflexer (letter args &body body)
+  (let ((name (intern (format nil "~a-~a" 'lex letter))))
+    `(progn
+       (defun ,name ,args
+         ,@body)
+       (let ((cons (assoc ,letter *lexers* :test #'equal)))
+         (if cons
+             (setf (cdr cons) #',name)
+             (push (cons ,letter #',name) *lexers*))))))
+
+(defun get-lexer (letter)
+  (or (cdr (assoc letter *lexers* :test #'equal))
+      #'lex-default))
+
+(defun lex (letter)
+  (funcall (get-lexer letter) letter))
+
+;;;
+
+(deflexer "#" (letter)
   (format t "~A sharp ~%" letter))
 
-(defun lex-equal (letter)
+(deflexer "=" (letter)
   (format t "~A equal ~%" letter))
 
-(defun lex-hyphen (letter)
+(deflexer "-" (letter)
   (format t "~A hyphen ~%" letter))
 
 (defun lex-default (letter)
