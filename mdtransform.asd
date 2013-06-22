@@ -7,7 +7,7 @@
   :license "MIT License"
   :depends-on ("cl-ppcre")
   :components ((:file "src/package")
-               (:file "src/input")
                (:file "src/lexer")
                (:file "src/parser")
+               (:file "src/input")
                (:file "src/mdtransform")))
