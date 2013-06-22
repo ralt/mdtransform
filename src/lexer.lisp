@@ -9,27 +9,6 @@
 (defparameter *state* s-start
   "The current state.")
 
-(defvar *lexers* '())
-
-(defmacro deflexer (letter args &body body)
-  (let ((name (intern (format nil "~a-~a" 'lex letter))))
-    `(progn
-       (defun ,name ,args
-         ,@body)
-       (let ((cons (assoc ,letter *lexers* :test #'equal)))
-         (if cons
-             (setf (cdr cons) #',name)
-             (push (cons ,letter #',name) *lexers*))))))
-
-(defun get-lexer (letter)
-  (or (cdr (assoc letter *lexers* :test #'equal))
-      #'lex-default))
-
-(defun lex (letter)
-  (funcall (get-lexer letter) letter))
-
-;;;
-
 (deflexer "#" (letter)
   (format t "~A sharp ~%" letter))
 
@@ -38,6 +17,10 @@
 
 (deflexer "-" (letter)
   (format t "~A hyphen ~%" letter))
+
+;;; newline is better written this way
+(deflexer (format nil "~%") (letter)
+  (format t "~A newline ~%" letter))
 
 (defun lex-default (letter)
   (format t "~A default~%" letter))

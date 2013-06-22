@@ -5,8 +5,8 @@
   :description "Markdown to HTML transformer"
   :author "Florian Margaine <florian@margaine.com>"
   :license "MIT License"
-  :depends-on ("cl-ppcre")
   :components ((:file "src/package")
+               (:file "src/lexer-impl")
                (:file "src/lexer")
                (:file "src/parser")
                (:file "src/input")
