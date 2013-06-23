@@ -46,6 +46,15 @@
   (setf *current* (concatenate 'string *current* letter)) 
   (format t "~A hyphen ~%" letter))
 
+(deflexer #\[ (letter)
+  (format t "~A open square bracket~%" letter))
+
+(deflexer #\] (letter)
+  (format t "~A close square bracket~%" letter))
+
+(deflexer #\! (letter)
+  (format t "~A exclamation mark~%" letter))
+
 (deflexer #\newline (letter)
   (format t "~A newline ~%" letter))
 
