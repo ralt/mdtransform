@@ -1,25 +1,24 @@
 (in-package #:mdtransform)
 
-(defparameter *tokens* '()
+(defvar *tokens* '()
   "The full list of tokens.")
 
 ;;; State constants
 (defconstant s-start 0)
 
-(defparameter *state* s-start
+(defvar *state* s-start
   "The current state.")
 
-(deflexer "#" (letter)
+(deflexer #\# (letter)
   (format t "~A sharp ~%" letter))
 
-(deflexer "=" (letter)
+(deflexer #\= (letter)
   (format t "~A equal ~%" letter))
 
-(deflexer "-" (letter)
+(deflexer #\- (letter)
   (format t "~A hyphen ~%" letter))
 
-;;; newline is better written this way
-(deflexer (format nil "~%") (letter)
+(deflexer #\newline (letter)
   (format t "~A newline ~%" letter))
 
 (defun lex-default (letter)
