@@ -19,3 +19,9 @@
 
 (defun lex (letter)
   (funcall (get-lexer letter) letter))
+
+;;; Returns from the lexer block after the when
+(defmacro when-breaker (con &body body)
+  `(when ,con
+     ,@body
+     (return-from lexer nil)))
