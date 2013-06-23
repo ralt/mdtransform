@@ -12,7 +12,8 @@
               s-one-newline
               s-in-h1-second-line
               s-in-h2-second-line
-              s-in-image)
+              s-in-image
+              s-in-link)
 
 (defvar *state* s-start
   "The current state.")
@@ -29,32 +30,39 @@
   (when-breaker (eq *state* s-in-h3)
     (setf *state* s-in-h4))
 
-  ;; Default behavior when none of the above applied.
-  (setf *current* (concatenate 'string *current* letter)))
+  (add-current))
 
 (deflexer #\= (letter)
   (when-breaker (or (eq *state* s-one-newline)
                     (eq *state* s-in-h1-second-line))
     (setf *state* s-in-h1-second-line))
 
-  (setf *current* (concatenate 'string *current* letter)))
+  (add-current))
 
 (deflexer #\- (letter)
   (when-breaker (or (eq *state* s-one-newline)
                     (eq *state* s-in-h2-second-line))
     (setf *state* s-in-h2-second-line))
 
-  (setf *current* (concatenate 'string *current* letter))
-  (format t "~A hyphen ~%" letter))
+  (add-current))
 
 (deflexer #\! (letter)
-  (setf *state* s-in-image))
+  (setf *state* s-in-image)
+  (add-current))
 
 (deflexer #\[ (letter)
-  (format t "~A open square bracket~%" letter))
+  (when-breaker (eq *state* s-in-image)
+    (setf *state* s-in-image))
+
+  (setf *state* s-in-link))
 
 (deflexer #\] (letter)
-  (format t "~A close square bracket~%" letter))
+  (add-current)
+
+  (when-breaker (eq *state* s-in-link)
+    (add-token 'link))
+  (when-breaker (eq *state* s-in-image)
+    (add-token 'image)))
 
 (deflexer #\newline (letter)
   (format t "~A newline ~%" letter))
