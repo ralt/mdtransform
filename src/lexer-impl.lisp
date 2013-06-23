@@ -8,7 +8,9 @@
   `(unless (assoc ,letter *lexers* :test #'equal)
      (setf *lexers* (acons ,letter
                            #'(lambda (,@args)
-                               ,@body)
+                               ;; Anaphoric macro for lexers to RETURN-FROM
+                               (block lexer
+                                      ,@body))
                            *lexers*))))
 
 (defun get-lexer (letter)

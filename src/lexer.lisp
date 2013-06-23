@@ -16,22 +16,21 @@
   "The current token being lexed.")
 
 (deflexer #\# (letter)
-          (block lexer
-                 (when (eq *state* s-start)
-                   (setf *state* s-in-h1)
-                   (return-from lexer nil))
-                 (when (eq *state* s-in-h1)
-                   (setf *state* s-in-h2)
-                   (return-from lexer nil))
-                 (when (eq *state* s-in-h2)
-                   (setf *state* s-in-h3)
-                   (return-from lexer nil))
-                 (when (eq *state* s-in-h3)
-                   (setf *state* s-in-h4)
-                   (return-from lexer nil))
+          (when (eq *state* s-start)
+            (setf *state* s-in-h1)
+            (return-from lexer nil))
+          (when (eq *state* s-in-h1)
+            (setf *state* s-in-h2)
+            (return-from lexer nil))
+          (when (eq *state* s-in-h2)
+            (setf *state* s-in-h3)
+            (return-from lexer nil))
+          (when (eq *state* s-in-h3)
+            (setf *state* s-in-h4)
+            (return-from lexer nil))
 
-                 ;; Default behavior when none of the above applied.
-                 (setf *current* (concatenate 'string *current* letter))))
+          ;; Default behavior when none of the above applied.
+          (setf *current* (concatenate 'string *current* letter)))
 
 (deflexer #\= (letter)
   (format t "~A equal ~%" letter))
