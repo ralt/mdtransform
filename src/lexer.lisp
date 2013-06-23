@@ -4,14 +4,15 @@
   "The full list of tokens.")
 
 ;;; State constants
-(defconstant s-start 0)
-(defconstant s-in-h1 1)
-(defconstant s-in-h2 2)
-(defconstant s-in-h3 3)
-(defconstant s-in-h4 4)
-(defconstant s-one-newline 5)
-(defconstant s-in-h1-second-line 6)
-(defconstant s-in-h2-second-line 7)
+(defconstants s-start
+              s-in-h1
+              s-in-h2
+              s-in-h3
+              s-in-h4
+              s-one-newline
+              s-in-h1-second-line
+              s-in-h2-second-line
+              s-in-image)
 
 (defvar *state* s-start
   "The current state.")
@@ -43,17 +44,17 @@
                     (eq *state* s-in-h2-second-line))
     (setf *state* s-in-h2-second-line))
 
-  (setf *current* (concatenate 'string *current* letter)) 
+  (setf *current* (concatenate 'string *current* letter))
   (format t "~A hyphen ~%" letter))
+
+(deflexer #\! (letter)
+  (setf *state* s-in-image))
 
 (deflexer #\[ (letter)
   (format t "~A open square bracket~%" letter))
 
 (deflexer #\] (letter)
   (format t "~A close square bracket~%" letter))
-
-(deflexer #\! (letter)
-  (format t "~A exclamation mark~%" letter))
 
 (deflexer #\newline (letter)
   (format t "~A newline ~%" letter))

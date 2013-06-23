@@ -7,7 +7,7 @@
 (defmacro deflexer (letter args &body body)
   `(unless (assoc ,letter *lexers* :test #'equal)
      (setf *lexers* (acons ,letter
-                           #'(lambda (,@args)
+                           #'(lambda ,args
                                ;; Anaphoric macro for lexers to RETURN-FROM
                                (block lexer
                                       ,@body))
@@ -25,3 +25,8 @@
   `(when ,con
      ,@body
      (return-from lexer nil)))
+
+(defmacro defconstants (&rest names)
+  `(progn
+     ,@(loop for i from 0 for name in names collecting
+             `(defconstant ,name ,i))))
