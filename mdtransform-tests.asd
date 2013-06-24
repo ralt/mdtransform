@@ -5,9 +5,6 @@
   :license "MIT License"
   :depends-on ("mdtransform" "fiveam")
   :components ((:file "tests/package")
-               (:file "tests/input")
-               (:file "tests/tokenizer")
-               (:file "tests/parser")
-               (:file "tests/ast")
-               (:file "tests/mdtransform")))
+               (:file "tests/mdtransform")
+               (:file "tests/lexer")))
 

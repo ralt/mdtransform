@@ -17,6 +17,8 @@
 
 (defvar *state* s-start
   "The current state.")
+(defvar *previous* ""
+  "The previous state")
 (defvar *current* ""
   "The current token being lexed.")
 
@@ -47,6 +49,7 @@
   (add-current letter))
 
 (deflexer #\! (letter)
+  (setf *previous* *state*)
   (setf *state* s-in-image)
   (add-current letter))
 
@@ -55,15 +58,18 @@
   (when-breaker (eq *state* s-in-image)
     (setf *state* s-in-image))
 
+  (setf *previous* *state*)
   (setf *state* s-in-link))
 
 (deflexer #\] (letter)
   (add-current letter)
 
   (when-breaker (eq *state* s-in-link)
-    (add-token 'link))
+    (add-token 'link)
+    (setf *state* *previous*))
   (when-breaker (eq *state* s-in-image)
-    (add-token 'image)))
+    (add-token 'image)
+    (setf *state* *previous*)))
 
 (deflexer #\newline (letter)
   (format t "~A newline ~%" letter))
