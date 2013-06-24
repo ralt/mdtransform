@@ -30,34 +30,35 @@
   (when-breaker (eq *state* s-in-h3)
     (setf *state* s-in-h4))
 
-  (add-current))
+  (add-current letter))
 
 (deflexer #\= (letter)
   (when-breaker (or (eq *state* s-one-newline)
                     (eq *state* s-in-h1-second-line))
     (setf *state* s-in-h1-second-line))
 
-  (add-current))
+  (add-current letter))
 
 (deflexer #\- (letter)
   (when-breaker (or (eq *state* s-one-newline)
                     (eq *state* s-in-h2-second-line))
     (setf *state* s-in-h2-second-line))
 
-  (add-current))
+  (add-current letter))
 
 (deflexer #\! (letter)
   (setf *state* s-in-image)
-  (add-current))
+  (add-current letter))
 
 (deflexer #\[ (letter)
+  (add-current letter)
   (when-breaker (eq *state* s-in-image)
     (setf *state* s-in-image))
 
   (setf *state* s-in-link))
 
 (deflexer #\] (letter)
-  (add-current)
+  (add-current letter)
 
   (when-breaker (eq *state* s-in-link)
     (add-token 'link))
@@ -68,4 +69,4 @@
   (format t "~A newline ~%" letter))
 
 (defun lex-default (letter)
-  (format t "~A default~%" letter))
+  (add-current letter))

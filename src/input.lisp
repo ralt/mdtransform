@@ -5,4 +5,4 @@
   (with-open-stream (s *standard-input*)
     (loop for char = (read-char s nil)
        while char
-       do (lex char))))
+       collect (lex char))))

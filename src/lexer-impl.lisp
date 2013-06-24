@@ -31,11 +31,14 @@
      ,@(loop for i from 0 for name in names collecting
              `(defconstant ,name ,i))))
 
-(defmacro add-current ()
-  `(setf *current* (concatenate *current* letter)))
+(defun add-current (letter)
+  (setf *current* (concatenate 'string
+                               *current*
+                               (make-array 1 :element-type 'character
+                                             :initial-element letter))))
 
 (defun add-token (token-class)
-  (setf *tokens*
-        (append *tokens*
-                (make-instance token-class
-                               :content *current*))))
+  (push (make-instance token-class
+                       :content *current*)
+        *tokens*)
+  (setf *current* ""))
